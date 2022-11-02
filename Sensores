@@ -1,0 +1,77 @@
+// Sistema detector de obstáculos  
+// Possui dois sensores, sendo eles um Sensor Infravermelho e um Sensor Ultrassônico; 
+// Ambos os sensores realizam a detecção de um obstáculo que esteja entre 1cm e 100cm; 
+// Notificando sua detecção através de Buzzeres que possui variação sonora de acordo com a distância em que o obstáculo se encontra; 
+// Estas variações possuem 4 níveis, sendo de 1cm - 10cm, 11cm - 20cm, 21cm - 40cm e 41cm - 100cm. 
+
+#include <Ultrasonic.h> // Inclusão de biblioteca do Sensor ultrassonico
+#define sensor A1 //Sensor Sharp (10 a 80cm) // Inclusão de biblioteca do Sensor infravermelho
+int buzzer1 = 8; // PORTA 8 (Buzzer Ultrassonico)
+int buzzer2 = 7; // PORTA 7 (Buzzer Infravermelho)
+Ultrasonic ultrassom(2, 3); //Cria o objeto ultrassom, do tipo Ultrassonic, e define os pinos onde está ligado o TRIGGER(pino 2) e o ECHO(pino 3) respectivamente
+long distancia; //cria a variável distancia do tipo long
+
+void setup() {
+  Serial.begin(9600); //Inicializa a comunicação serial, com velocidade de comunicação de 9600
+}
+
+void loop(){
+  ////// SENSOR ULTRASSÔNICO //////
+  distancia = ultrassom.Ranging(CM);//ultrassom.Ranging(CM) retorna a distancia em centímetros(CM)
+  if (distancia <=80) { Serial.print(distancia); Serial.println(" cm");} ///MOSTRAR A DISTÂNCIA DETECTADA
+  delay(50); //Intervalo de taxa de atualização de distância (0,05 segundos). 
+  
+    //////// SINAL ENTRE 1CM E 10CM ///////
+  if (distancia >=1 and distancia <=10){
+    tone(buzzer1,740);  // Ativa O Buzzer
+    delay(2000); // Intervalo
+    noTone(buzzer1); } // Desativa o buzzer
+
+    //////// SINAL ENTRE 11CM E 20CM ///////
+  else if (distancia >=11 and distancia <=20){
+    tone(buzzer1,740);    // Ativa o Buzzer
+    delay(400); // Intervalo
+    noTone(buzzer1);} // Desativa o buzzer
+    //////// SINAL ENTRE 21CM E 40CM ///////
+ else if (distancia >=21 and distancia <=40){
+    tone(buzzer1,740); // Ativa o buzzer
+    delay(150); // Intervalo
+    noTone(buzzer1);} // Desativa o buzzer
+     //////// SINAL ENTRE 41CM E 100CM ///////
+  else if (distancia >=41 and distancia <=100){
+    tone(buzzer1,740); // Ativa o buzzer
+    delay(50); // Intervalo
+    noTone(buzzer1);} // Desativa o buzzer
+    
+    
+    ////// SENSOR INFRAVERMELHO ////// 
+    float volts = analogRead(sensor)*0.00448828125; // CANCULA A TENSÃO DA ENTRADA AN
+    int distancia = 26*pow(volts, -1);  // EQUAÇÃO BASEADA NO DATASHEET
+
+  if (distancia <=80) { Serial.print(distancia); Serial.println(" cm");} ///MOSTRAR A DISTÂNCIA DETECTADA
+  delay(50); // Intervalo
+  
+    //////// SINAL ENTRE 1CM E 10CM ///////
+  if (distancia >=1 and distancia <=10){
+    tone(buzzer2,261); // Ativa o buzzer
+    delay(2000); // Intervalo
+    noTone(buzzer2); } // Desativa o buzzer
+    
+    //////// SINAL ENTRE 11CM E 20CM ///////
+  else if (distancia >=11 and distancia <=20){
+    tone(buzzer2,261);    // Aiva o Buzzer
+    delay(400); // Intervalo
+    noTone(buzzer2);} // Desativa o buzzer
+    
+     //////// SINAL ENTRE 21CM E 40CM ///////
+  else if (distancia >=21 and distancia <=40){
+    tone(buzzer2,261); // Ativa o buzzer
+    delay(150); // Intervalo
+    noTone(buzzer2);} // Desativa o buzzer
+
+     //////// SINAL ENTRE 41CM E 80CM ///////
+  else if (distancia >=41 and distancia <=80){
+    tone(buzzer2,261); // Ativa o buzzer
+    delay(50); // Intervalo
+    noTone(buzzer2);} // Desativa o buzzer
+}
