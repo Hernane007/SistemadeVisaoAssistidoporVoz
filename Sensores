@@ -4,7 +4,7 @@
 // Notificando sua detecção através de um Buzzer que possui variação sonora de acordo com a distância em que o obstáculo se encontra; 
 // Estas variações possuem 5 níveis, sendo de 1cm - 15cm, 16cm - 40cm, 41cm - 70cm, 71cm - 110cm e 111cm - 140cm 
 
-#define sensor A1 //Sensor Sharp (10 a 80cm) // Inclusão de biblioteca do Sensor infravermelho
+#define sensor A1 //Sensor Sharp // Inclusão de biblioteca do Sensor infravermelho
 int buzzer1 = 7; // PORTA (Buzzer emissor do som de alerta)
 
 long distancia; //cria a variável distancia do tipo long
